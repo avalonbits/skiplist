@@ -69,10 +69,10 @@ func TestInsertAndFind(t *testing.T) {
 	}
 
 	// Test at the beginning of the list.
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Insert(Element(maxN - i))
 	}
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		if _, ok := list.Find(Element(maxN - i)); !ok {
 			t.Fail()
 		}
@@ -80,10 +80,10 @@ func TestInsertAndFind(t *testing.T) {
 
 	list = New()
 	// Test at the end of the list.
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Insert(Element(i))
 	}
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		if _, ok := list.Find(Element(i)); !ok {
 			t.Fail()
 		}
@@ -118,10 +118,10 @@ func TestDelete(t *testing.T) {
 	}
 
 	// Delete elements at the beginning of the list.
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Insert(Element(i))
 	}
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Delete(Element(i))
 	}
 	if !list.IsEmpty() {
@@ -130,10 +130,10 @@ func TestDelete(t *testing.T) {
 
 	list = New()
 	// Delete elements at the end of the list.
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Insert(Element(i))
 	}
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Delete(Element(maxN - i - 1))
 	}
 	if !list.IsEmpty() {
@@ -168,7 +168,7 @@ func TestFindGreaterOrEqual(t *testing.T) {
 
 	list = NewEps(eps)
 
-	for i := 0; i < maxN; i++ {
+	for range maxN {
 		list.Insert(FloatElement(rand.Float64() * maxNumber))
 	}
 
@@ -185,7 +185,7 @@ func TestFindGreaterOrEqual(t *testing.T) {
 		t.Fail()
 	}
 
-	for i := 0; i < maxN; i++ {
+	for range maxN {
 		f := rand.Float64() * maxNumber
 		if v, ok := list.FindGreaterOrEqual(FloatElement(f)); ok {
 			// if f is v should be bigger than the element before
@@ -217,7 +217,7 @@ func TestFindGreaterOrEqual(t *testing.T) {
 func TestPrev(t *testing.T) {
 	list := New()
 
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Insert(Element(i))
 	}
 
@@ -247,7 +247,7 @@ func TestPrev(t *testing.T) {
 func TestNext(t *testing.T) {
 	list := New()
 
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Insert(Element(i))
 	}
 
@@ -277,11 +277,11 @@ func TestNext(t *testing.T) {
 func TestChangeValue(t *testing.T) {
 	list := New()
 
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Insert(ComplexElement{i, "value"})
 	}
 
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		// The key only looks at the int so the string doesn't matter here!
 		f1, ok := list.Find(ComplexElement{i, ""})
 		if !ok {
@@ -307,7 +307,7 @@ func TestChangeValue(t *testing.T) {
 func TestGetNodeCount(t *testing.T) {
 	list := New()
 
-	for i := 0; i < maxN; i++ {
+	for i := range maxN {
 		list.Insert(Element(i))
 	}
 
@@ -319,7 +319,7 @@ func TestGetNodeCount(t *testing.T) {
 func TestString(t *testing.T) {
 	list := NewSeed(1531889620180049576)
 
-	for i := 0; i < 20; i++ {
+	for i := range 20 {
 		list.Insert(Element(i))
 	}
 

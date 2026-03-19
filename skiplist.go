@@ -32,6 +32,7 @@ import (
 	"math"
 	"math/bits"
 	"math/rand"
+	"strings"
 	"time"
 )
 
@@ -464,7 +465,7 @@ func (t *SkipList) GetNodeCount() int {
 // ok is an indicator, wether the value is actually changed.
 func (t *SkipList) ChangeValue(e *SkipListElement, newValue ListElement) (ok bool) {
 	// The key needs to stay correct, so this is very important!
-	if math.Abs(newValue.ExtractKey() - e.key) <= t.eps {
+	if math.Abs(newValue.ExtractKey()-e.key) <= t.eps {
 		e.value = newValue
 		ok = true
 	} else {
@@ -475,31 +476,31 @@ func (t *SkipList) ChangeValue(e *SkipListElement, newValue ListElement) (ok boo
 
 // String returns a string format of the skiplist. Useful to get a graphical overview and/or debugging.
 func (t *SkipList) String() string {
-	s := ""
+	var s strings.Builder
 
-	s += " --> "
+	s.WriteString(" --> ")
 	for i, l := range t.startLevels {
 		if l == nil {
 			break
 		}
 		if i > 0 {
-			s += " -> "
+			s.WriteString(" -> ")
 		}
 		next := "---"
 		if l != nil {
 			next = l.value.String()
 		}
-		s += fmt.Sprintf("[%v]", next)
+		s.WriteString(fmt.Sprintf("[%v]", next))
 
 		if i == 0 {
-			s += "    "
+			s.WriteString("    ")
 		}
 	}
-	s += "\n"
+	s.WriteString("\n")
 
 	node := t.startLevels[0]
 	for node != nil {
-		s += fmt.Sprintf("%v: ", node.value)
+		s.WriteString(fmt.Sprintf("%v: ", node.value))
 		for i := 0; i <= node.level; i++ {
 
 			l := node.next[i]
@@ -514,36 +515,36 @@ func (t *SkipList) String() string {
 				if node.prev != nil {
 					prev = node.prev.value.String()
 				}
-				s += fmt.Sprintf("[%v|%v]", prev, next)
+				s.WriteString(fmt.Sprintf("[%v|%v]", prev, next))
 			} else {
-				s += fmt.Sprintf("[%v]", next)
+				s.WriteString(fmt.Sprintf("[%v]", next))
 			}
 			if i < node.level {
-				s += " -> "
+				s.WriteString(" -> ")
 			}
 
 		}
-		s += "\n"
+		s.WriteString("\n")
 		node = node.next[0]
 	}
 
-	s += " --> "
+	s.WriteString(" --> ")
 	for i, l := range t.endLevels {
 		if l == nil {
 			break
 		}
 		if i > 0 {
-			s += " -> "
+			s.WriteString(" -> ")
 		}
 		next := "---"
 		if l != nil {
 			next = l.value.String()
 		}
-		s += fmt.Sprintf("[%v]", next)
+		s.WriteString(fmt.Sprintf("[%v]", next))
 		if i == 0 {
-			s += "    "
+			s.WriteString("    ")
 		}
 	}
-	s += "\n"
-	return s
+	s.WriteString("\n")
+	return s.String()
 }
